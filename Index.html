@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Expert Roadmap — Automotive PM</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #06090f; --surface: #0d1320; --panel: #111928; --border: #1a2436;
+  --accent: #00d4ff; --accent2: #ff6b2b; --accent3: #7fff6b;
+  --gold: #f59e0b; --purple: #a855f7;
+  --text: #e8edf5; --muted: #546070;
+  --m1:#00d4ff; --m2:#5b8fff; --m3:#a855f7; --m4:#f59e0b; --m5:#ff6b2b; --m6:#7fff6b;
+  --sw: 230px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;display:flex;flex-direction:column;}
+.slogo{padding:20px 16px 14px;border-bottom:1px solid var(--border);}
+.slogo-t{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:0.06em;}
+.slogo-s{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}
+.ssec{padding:12px 16px 3px;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.18em;text-transform:uppercase;}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 16px;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);border-left:2px solid transparent;transition:all .18s;}
+.ni:hover{color:var(--text);background:var(--panel);}
+.ni.active{color:var(--text);border-left-color:var(--c,var(--accent));background:var(--panel);}
+.ndot{width:6px;height:6px;border-radius:50%;background:var(--c,var(--muted));flex-shrink:0;}
+.ni.active .ndot{background:var(--c,var(--accent));box-shadow:0 0 6px var(--c,var(--accent));}
+.scal{margin:14px 12px;background:linear-gradient(135deg,rgba(0,212,255,.1),rgba(91,143,255,.1));border:1px solid rgba(0,212,255,.22);padding:14px;}
+.scal-t{font-family:'DM Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;}
+.cbtn{display:block;width:100%;text-align:center;background:var(--accent);color:var(--bg);font-family:'DM Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.08em;padding:9px 12px;border:none;text-decoration:none;cursor:pointer;transition:opacity .18s;}
+.cbtn:hover{opacity:.82;text-decoration:none;}
+.cnote{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);line-height:1.55;margin-top:8px;}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;padding:46px 38px 80px;max-width:calc(100% - var(--sw));position:relative;}
+.main::before{content:'';position:fixed;inset:0;left:var(--sw);background-image:linear-gradient(rgba(0,212,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,.025) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;z-index:0;}
+.page{display:none;position:relative;z-index:1;max-width:860px;}
+.page.active{display:block;}
+
+/* HERO */
+.htag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.htag::before{content:'';width:26px;height:1px;background:var(--accent);}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(46px,7vw,84px);letter-spacing:.02em;line-height:.88;color:var(--text);}
+h1 span{color:var(--accent);display:block;}
+.hsub{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:16px;display:flex;gap:22px;flex-wrap:wrap;}
+.hsub span{display:flex;align-items:center;gap:6px;}
+.hsub span::before{content:'◆';color:var(--accent2);font-size:7px;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;margin:30px 0 40px;}
+.stat{background:var(--surface);border:1px solid var(--border);padding:16px;position:relative;overflow:hidden;}
+.stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--c,var(--accent));}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--c,var(--accent));line-height:1;}
+.stat-l{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:3px;}
+
+/* INFO BAR */
+.ibar{background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(91,143,255,.07));border:1px solid rgba(0,212,255,.16);padding:16px 20px;margin-bottom:28px;font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);line-height:1.8;}
+.ibar strong{color:var(--text);font-weight:600;}
+
+/* SECTION LABEL */
+.sl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px;margin-bottom:18px;margin-top:32px;}
+.sl::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* COURSE ROWS */
+.crow{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--c,var(--accent));padding:13px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:7px;}
+.crow-l .crow-mo{font-family:'DM Mono',monospace;font-size:9px;color:var(--c,var(--accent));letter-spacing:.12em;margin-bottom:3px;}
+.crow-l a{font-size:13px;font-weight:700;color:var(--text);border-bottom:1px solid var(--c,var(--accent));}
+.crow-badge{font-family:'DM Mono',monospace;font-size:9px;color:var(--c,var(--accent));border:1px solid var(--c,var(--accent));padding:3px 8px;white-space:nowrap;}
+
+/* COURSE CARDS */
+.ccard{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--c,var(--accent));padding:20px 22px;margin-bottom:14px;position:relative;}
+.cbadge{position:absolute;top:-1px;right:14px;font-family:'DM Mono',monospace;font-size:8px;padding:3px 10px;background:var(--c,var(--accent));color:var(--bg);letter-spacing:.1em;text-transform:uppercase;}
+.cmo{font-family:'DM Mono',monospace;font-size:9px;color:var(--c,var(--accent));letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px;}
+.cname{font-size:16px;font-weight:700;margin-bottom:4px;}
+.cname a{color:var(--text);border-bottom:1px solid var(--c,var(--accent));padding-bottom:1px;}
+.cname a:hover{color:var(--c,var(--accent));text-decoration:none;}
+.curl{font-family:'DM Mono',monospace;font-size:10px;margin-bottom:9px;}
+.curl a{color:var(--c,var(--accent));}
+.cdesc{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;margin-bottom:12px;}
+.clinks{display:flex;gap:8px;flex-wrap:wrap;}
+.cl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.08em;padding:5px 11px;border:1px solid var(--c,var(--accent));color:var(--c,var(--accent));text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;}
+.cl:hover,.cl.filled{background:var(--c,var(--accent));color:var(--bg);text-decoration:none;}
+
+/* RHYTHM */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:9px;margin-bottom:28px;}
+.ri{background:var(--surface);border:1px solid var(--border);padding:16px;}
+.rh{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--accent2);line-height:1;}
+.rtype{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.rdesc{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:28px;}
+.sday{background:var(--surface);border:1px solid var(--border);padding:16px;text-align:center;}
+.sday-n{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1;margin-bottom:5px;}
+.sday-t{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);margin-bottom:7px;}
+.sday-type{font-size:12px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.sday-d{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);line-height:1.5;}
+
+/* GLOSSARY */
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;}
+.gi{background:var(--surface);border:1px solid var(--border);padding:13px;}
+.gterm{font-size:11px;font-weight:700;color:var(--accent2);margin-bottom:4px;}
+.gdef{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;}
+
+/* OUTCOMES */
+.ogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:11px;}
+.oc{background:var(--surface);border:1px solid var(--border);padding:20px;position:relative;}
+.onum{font-family:'Bebas Neue',sans-serif;font-size:50px;color:var(--border);position:absolute;top:8px;right:12px;line-height:1;}
+.otitle{font-size:13px;font-weight:700;margin-bottom:7px;color:var(--text);}
+.odesc{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;}
+
+/* TIMELINE */
+.mblock{--c:var(--accent);margin-bottom:36px;}
+.mheader{display:flex;align-items:baseline;gap:13px;margin-bottom:12px;flex-wrap:wrap;}
+.mnum{font-family:'DM Mono',monospace;font-size:9px;color:var(--c);letter-spacing:.15em;}
+.mtitle{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--text);letter-spacing:.04em;}
+.mbadge{font-family:'DM Mono',monospace;font-size:8px;padding:3px 9px;border:1px solid var(--c);color:var(--c);letter-spacing:.1em;text-transform:uppercase;margin-left:auto;}
+.mcard{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--c);}
+.mfocus{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;gap:7px;flex-wrap:wrap;}
+.ftag{font-family:'DM Mono',monospace;font-size:9px;padding:3px 8px;background:rgba(255,255,255,.04);color:var(--muted);letter-spacing:.06em;}
+.ftag a{color:var(--c,var(--accent));}
+.ftag-hl{background:rgba(127,255,107,.08);border:1px solid rgba(127,255,107,.28);color:var(--accent3)!important;}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;}
+@media(max-width:580px){.wgrid,.sgrid{grid-template-columns:1fr;}}
+.wi{padding:15px 18px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+.wi:nth-child(even){border-right:none;}
+.wi:last-child,.wi:nth-last-child(2):nth-child(odd){border-bottom:none;}
+.wnum{font-family:'DM Mono',monospace;font-size:9px;color:var(--c);letter-spacing:.13em;margin-bottom:5px;text-transform:uppercase;}
+.wtitle{font-size:12px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.3;}
+.wtasks{list-style:none;}
+.wtasks li{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding:3px 0 3px 13px;position:relative;line-height:1.5;}
+.wtasks li::before{content:'→';position:absolute;left:0;color:var(--c);font-size:9px;}
+.wtasks li a{color:var(--c,var(--accent));}
+.mout{padding:12px 18px;background:rgba(255,255,255,.02);border-top:1px solid var(--border);font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);display:flex;align-items:center;gap:10px;}
+.mout::before{content:'MILESTONE';color:var(--c);letter-spacing:.1em;white-space:nowrap;font-size:9px;}
+
+/* CAL DOWNLOAD BOX */
+.calbox{background:var(--surface);border:1px solid rgba(0,212,255,.2);padding:18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.calflex{display:flex;flex-direction:column;gap:7px;min-width:170px;}
+
+/* MOBILE */
+.mtoggle{display:none;}
+@media(max-width:780px){
+  .sidebar{transform:translateX(-100%);transition:transform .25s;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;max-width:100%;padding:22px 16px 60px;}
+  .mtoggle{display:flex;position:fixed;top:12px;left:12px;z-index:200;background:var(--surface);border:1px solid var(--border);width:36px;height:36px;align-items:center;justify-content:center;cursor:pointer;font-size:17px;}
+}
+
+.wk-hl{background:rgba(127,255,107,.03);border:1px solid rgba(127,255,107,.15)!important;}
+</style>
+</head>
+<body>
+
+<div class="mtoggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="slogo">
+    <div class="slogo-t">AI PM ROADMAP</div>
+    <div class="slogo-s">Automotive Track · 6 Months</div>
+  </div>
+
+  <div class="ssec">Overview</div>
+  <div class="ni active" style="--c:var(--accent)" onclick="show('home',this)"><span class="ndot"></span>Home &amp; Summary</div>
+  <div class="ni" style="--c:var(--accent2)" onclick="show('weekly',this)"><span class="ndot"></span>Weekly Rhythm</div>
+  <div class="ni" style="--c:var(--accent3)" onclick="show('courses',this)"><span class="ndot"></span>Courses &amp; Links</div>
+  <div class="ni" style="--c:var(--gold)" onclick="show('glossary',this)"><span class="ndot"></span>Jargon Decoder</div>
+  <div class="ni" style="--c:var(--purple)" onclick="show('outcomes',this)"><span class="ndot"></span>End Outcomes</div>
+
+  <div class="ssec">Monthly Timeline</div>
+  <div class="ni" style="--c:var(--m1)" onclick="show('m1',this)"><span class="ndot"></span>Month 1 · Foundations</div>
+  <div class="ni" style="--c:var(--m2)" onclick="show('m2',this)"><span class="ndot"></span>Month 2 · First Agent</div>
+  <div class="ni" style="--c:var(--m3)" onclick="show('m3',this)"><span class="ndot"></span>Month 3 · Internals</div>
+  <div class="ni" style="--c:var(--m4)" onclick="show('m4',this)"><span class="ndot"></span>Month 4 · Testing &amp; ROI</div>
+  <div class="ni" style="--c:var(--m5)" onclick="show('m5',this)"><span class="ndot"></span>Month 5 · Enterprise</div>
+  <div class="ni" style="--c:var(--m6)" onclick="show('m6',this)"><span class="ndot"></span>Month 6 · Capstone</div>
+
+  <div style="flex:1"></div>
+  <div class="scal">
+    <div class="scal-t">📅 Calendar</div>
+    <a class="cbtn" href="AI_Roadmap_Calendar.ics" download>⬇ Download .ICS File</a>
+    <div class="cnote">Mon &amp; Wed 12–2 PM CT<br>Friday 10 AM–12 PM CT<br>72 sessions · Apr 6 – Sep 18, 2026<br>Google · Outlook · Apple</div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="htag">AI Mastery Roadmap · Automotive PM Track</div>
+  <h1>FROM PM<span>TO AI EXPERT</span></h1>
+  <div class="hsub">
+    <span>6 months · 24 weeks</span><span>6 hrs/week · 144 hrs total</span>
+    <span>Automotive × Agentic AI</span><span>No coding required</span>
+  </div>
+  <div class="stats">
+    <div class="stat" style="--c:var(--m1)"><div class="stat-n">24</div><div class="stat-l">Weeks of learning</div></div>
+    <div class="stat" style="--c:var(--m2)"><div class="stat-n">144</div><div class="stat-l">Total hours</div></div>
+    <div class="stat" style="--c:var(--m3)"><div class="stat-n">5</div><div class="stat-l">Courses &amp; certs</div></div>
+    <div class="stat" style="--c:var(--m4)"><div class="stat-n">72</div><div class="stat-l">Calendar sessions</div></div>
+    <div class="stat" style="--c:var(--m6)"><div class="stat-n">1</div><div class="stat-l">Shipped AI agent</div></div>
+  </div>
+  <div class="ibar"><strong>Your strategy in plain English:</strong> Months 1–2 give you vocabulary and hands-on experience — no coding, just real PM work with AI. Months 3–4 teach you how agents are designed inside and how to build a business case for Toyota leadership. Months 5–6 deploy a real enterprise agent and position you as the automotive AI expert. <strong>Every session is already in your calendar — download below.</strong></div>
+
+  <div class="sl">Your 5 courses — click to enroll</div>
+  <div class="crow" style="--c:var(--m1)"><div class="crow-l"><div class="crow-mo">MONTH 1 · WEEKS 1–4</div><a href="https://productschool.com/certifications/ai-for-product-managers" target="_blank">AI Product Management Certification — Product School</a></div><span class="crow-badge">🏆 CERT</span></div>
+  <div class="crow" style="--c:var(--m2)"><div class="crow-l"><div class="crow-mo">MONTHS 2–3 · WEEKS 5–12</div><a href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">Agentic AI Mastery — DeepLearning.AI (Andrew Ng)</a></div><span class="crow-badge">🏆 CERT</span></div>
+  <div class="crow" style="--c:var(--accent3);border:2px solid var(--accent3);"><div class="crow-l"><div class="crow-mo" style="color:var(--accent3)">MONTH 2 · WEEK 6 · ★ FREE · NO CODING</div><a href="https://ccforpms.com/" target="_blank" style="border-color:var(--accent3)">Claude Code for Product Managers — ccforpms.com</a></div><span class="crow-badge" style="color:var(--accent3);border-color:var(--accent3);">FREE</span></div>
+  <div class="crow" style="--c:var(--m4)"><div class="crow-l"><div class="crow-mo">MONTH 4 · WEEKS 13–16</div><a href="https://www.coursera.org/learn/agentic-ai-and-agentic-process-automation" target="_blank">Agentic Process Automation — IBM on Coursera</a></div><span class="crow-badge">🏆 CERT</span></div>
+  <div class="crow" style="--c:var(--m5)"><div class="crow-l"><div class="crow-mo">MONTH 5 · WEEKS 17–20</div><a href="https://learn.microsoft.com/en-us/training/paths/work-with-microsoft-copilot-studio/" target="_blank">Copilot Studio Agent Academy — Microsoft Learn (Free)</a></div><span class="crow-badge">🏆 BADGE</span></div>
+
+  <div class="sl">calendar already built for you</div>
+  <div class="calbox">
+    <div style="flex:1;min-width:200px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;">72 Sessions Pre-Loaded</div>
+      <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;">Mon &amp; Wed: 12–2 PM CT · Friday: 10 AM–12 PM CT</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.6;">Each invite has the course name, direct URL, and that week's exact focus — right inside the calendar event. Import once, done. Works with Google, Outlook, and Apple Calendar.</div>
+    </div>
+    <div class="calflex"><a class="cl filled" style="--c:var(--accent);text-align:center;" href="AI_Roadmap_Calendar.ics" download>⬇ Download Calendar (.ICS)</a><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-align:center;">Google · Outlook · Apple Calendar</div></div>
+  </div>
+</div>
+
+<!-- WEEKLY RHYTHM -->
+<div class="page" id="page-weekly">
+  <div class="htag">Your 6-Hour Week</div>
+  <h1 style="font-size:clamp(34px,5vw,60px)">SUSTAINABLE<span>LEARNING RHYTHM</span></h1>
+  <div class="ibar" style="margin-top:22px;"><strong>The rule:</strong> 3 sessions per week. Never cram. 6 focused hours every week for 24 weeks beats any sprint. Each session has one job so you always know exactly what to do when you sit down.</div>
+
+  <div class="sl">what happens in each session</div>
+  <div class="rgrid">
+    <div class="ri"><div class="rh">2h</div><div class="rtype">Monday — Course Content</div><div class="rdesc">Watch the week's lessons. Take notes in your own words. Your calendar invite already has the course URL and today's exact focus listed inside.</div></div>
+    <div class="ri"><div class="rh">2h</div><div class="rtype">Wednesday — Hands-On Build</div><div class="rdesc">Build something — a prompt, an agent design doc, a Copilot Studio prototype. Never skip this. Messy is fine. This is where knowledge becomes skill.</div></div>
+    <div class="ri"><div class="rh">1h</div><div class="rtype">Friday — Read</div><div class="rdesc">One article or newsletter. Curated: <a href="https://www.therundown.ai/" target="_blank">The Rundown AI</a>, <a href="https://bensbites.co/" target="_blank">Ben's Bites</a>, <a href="https://lastweekin.ai/" target="_blank">Last Week in AI</a>, <a href="https://fullstackpm.com/" target="_blank">The Full Stack PM</a>.</div></div>
+    <div class="ri"><div class="rh">1h</div><div class="rtype">Friday — Reflect</div><div class="rdesc">Journal: "How does this apply to Toyota?" Write 3 sentences. Post one insight to LinkedIn. This is how you build your expert reputation over 6 months.</div></div>
+  </div>
+
+  <div class="sl">your fixed weekly schedule</div>
+  <div class="sgrid">
+    <div class="sday"><div class="sday-n" style="color:var(--m1)">MON</div><div class="sday-t">12:00 PM – 2:00 PM CT</div><div class="sday-type">Course Content</div><div class="sday-d">Video lessons + structured note-taking. Course URL is in your calendar invite.</div></div>
+    <div class="sday"><div class="sday-n" style="color:var(--m2)">WED</div><div class="sday-t">12:00 PM – 2:00 PM CT</div><div class="sday-type">Hands-On Build</div><div class="sday-d">Practical work: prompts, agent design docs, Copilot Studio, Claude Code.</div></div>
+    <div class="sday"><div class="sday-n" style="color:var(--m3)">FRI</div><div class="sday-t">10:00 AM – 12:00 PM CT</div><div class="sday-type">Read + Reflect</div><div class="sday-d">1 hr newsletter/article + 1 hr journal &amp; LinkedIn post.</div></div>
+  </div>
+
+  <div class="sl">download your calendar</div>
+  <div class="calbox">
+    <div style="flex:1;min-width:200px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;">72 events from April 6 – September 18, 2026. Each invite contains the course name, direct URL, and that week's learning focus. Import once, done.</div>
+    <div class="calflex"><a class="cl filled" style="--c:var(--accent);text-align:center;" href="AI_Roadmap_Calendar.ics" download>⬇ Download .ICS File</a><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);text-align:center;">Google · Outlook · Apple</div></div>
+  </div>
+</div>
+
+<!-- COURSES -->
+<div class="page" id="page-courses">
+  <div class="htag">All Courses &amp; Resources</div>
+  <h1 style="font-size:clamp(34px,5vw,60px)">YOUR<span>LEARNING STACK</span></h1>
+  <div class="ibar" style="margin-top:22px;"><strong>No coding required for any of these.</strong> Every course was chosen because it's designed for business and product people, not engineers. Click any title or link to go directly to the course page.</div>
+
+  <div class="sl">month 1 — foundations</div>
+  <div class="ccard" style="--c:var(--m1)">
+    <div class="cbadge" style="background:var(--m1);color:var(--bg)">🏆 Certificate Included</div>
+    <div class="cmo">Month 1 · Weeks 1–4 · ~15 hrs · Cohort-based</div>
+    <div class="cname"><a href="https://productschool.com/certifications/ai-for-product-managers" target="_blank">AI Product Management Certification</a></div>
+    <div class="curl">🔗 <a href="https://productschool.com/certifications/ai-for-product-managers" target="_blank">productschool.com/certifications/ai-for-product-managers</a></div>
+    <div class="cdesc">The go-to AI PM certification. Covers product sense for AI, writing AI-specific feature specs, and designing products built on unpredictable AI outputs. Taught by practitioners from Google, Amazon, and Microsoft. Check their site for next cohort intake dates.</div>
+    <div class="clinks">
+      <a class="cl filled" style="--c:var(--m1)" href="https://productschool.com/certifications/ai-for-product-managers" target="_blank">Enroll Now →</a>
+      <a class="cl" style="--c:var(--m1)" href="https://www.coursera.org/professional-certificates/ibm-ai-product-manager" target="_blank">Alt: IBM AI PM Cert on Coursera (self-paced)</a>
+    </div>
+  </div>
+
+  <div class="sl">months 2–3 — agentic ai theory</div>
+  <div class="ccard" style="--c:var(--m2)">
+    <div class="cbadge" style="background:var(--m2);color:#fff">🏆 Certificate Included</div>
+    <div class="cmo">Months 2–3 · Weeks 5–12 · Self-paced · Free to audit</div>
+    <div class="cname"><a href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">Agentic AI Mastery — DeepLearning.AI</a></div>
+    <div class="curl">🔗 <a href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen</a></div>
+    <div class="cdesc">Gold standard for understanding how AI agents work — created by Andrew Ng. Some videos show Python code, but as a PM you're learning the design patterns: Reflection, Tool Use, Planning, Multi-Agent. You don't write any code. Focus on the concepts, not the syntax.</div>
+    <div class="clinks">
+      <a class="cl filled" style="--c:var(--m2)" href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">Start Course →</a>
+      <a class="cl" style="--c:var(--m2)" href="https://www.deeplearning.ai/" target="_blank">Browse All DeepLearning.AI</a>
+    </div>
+  </div>
+
+  <div class="sl">month 2 week 6 — hands-on pm practice (free)</div>
+  <div class="ccard" style="--c:var(--accent3);border:2px solid var(--accent3);">
+    <div class="cbadge" style="background:var(--accent3);color:var(--bg)">★ Free · No Coding</div>
+    <div class="cmo">Month 2 · Week 6 · 10–12 hrs · No coding needed</div>
+    <div class="cname"><a href="https://ccforpms.com/" target="_blank" style="border-color:var(--accent3)">Claude Code for Product Managers</a></div>
+    <div class="curl">🔗 <a href="https://ccforpms.com/" target="_blank">ccforpms.com</a> · GitHub: <a href="https://github.com/carlvellotti/claude-code-pm-course" target="_blank">github.com/carlvellotti/claude-code-pm-course</a></div>
+    <div class="cdesc">The only course taught inside an AI agent. You install Claude Code, clone the course repo, and learn by doing real PM work: processing meeting notes, writing PRDs, running 10 parallel AI agents at once, and building a product strategy. No coding — if you can describe what you want in plain English, you can do this. Requires Claude Pro ($20/mo). Completely free to take. Created by Carl Vellotti.</div>
+    <div class="clinks">
+      <a class="cl filled" style="--c:var(--accent3);color:var(--bg)" href="https://ccforpms.com/" target="_blank">Start Free Course →</a>
+      <a class="cl" style="--c:var(--accent3)" href="https://ccforpms.com/getting-started/installation" target="_blank">Installation Guide</a>
+      <a class="cl" style="--c:var(--accent3)" href="https://claude.ai" target="_blank">Get Claude Pro ($20/mo)</a>
+      <a class="cl" style="--c:var(--accent3)" href="https://fullstackpm.com/" target="_blank">Carl's Newsletter</a>
+    </div>
+  </div>
+
+  <div class="sl">month 4 — business case &amp; testing</div>
+  <div class="ccard" style="--c:var(--m4)">
+    <div class="cbadge" style="background:var(--m4);color:var(--bg)">🏆 Certificate Included</div>
+    <div class="cmo">Month 4 · Weeks 13–16 · Self-paced on Coursera</div>
+    <div class="cname"><a href="https://www.coursera.org/learn/agentic-ai-and-agentic-process-automation" target="_blank">Agentic AI &amp; Process Automation — IBM</a></div>
+    <div class="curl">🔗 <a href="https://www.coursera.org/learn/agentic-ai-and-agentic-process-automation" target="_blank">coursera.org/learn/agentic-ai-and-agentic-process-automation</a></div>
+    <div class="cdesc">IBM's P&amp;L-first approach: find high-value workflows to automate and calculate the ROI of AI vs. manual effort. Perfect for building the business case you'll need Toyota leadership to approve. Self-paced on Coursera with a shareable certificate upon completion.</div>
+    <div class="clinks">
+      <a class="cl filled" style="--c:var(--m4)" href="https://www.coursera.org/learn/agentic-ai-and-agentic-process-automation" target="_blank">Enroll on Coursera →</a>
+      <a class="cl" style="--c:var(--m4)" href="https://www.ibm.com/ai" target="_blank">IBM AI Overview</a>
+    </div>
+  </div>
+
+  <div class="sl">month 5 — enterprise deployment</div>
+  <div class="ccard" style="--c:var(--m5)">
+    <div class="cbadge" style="background:var(--m5);color:#fff">🏆 Microsoft Badge</div>
+    <div class="cmo">Month 5 · Weeks 17–20 · Free on Microsoft Learn</div>
+    <div class="cname"><a href="https://learn.microsoft.com/en-us/training/paths/work-with-microsoft-copilot-studio/" target="_blank">Microsoft Copilot Studio — Agent Academy</a></div>
+    <div class="curl">🔗 <a href="https://learn.microsoft.com/en-us/training/paths/work-with-microsoft-copilot-studio/" target="_blank">learn.microsoft.com — Copilot Studio Learning Path</a></div>
+    <div class="cdesc">Microsoft's no-code tool for building enterprise AI agents — the one most likely to be approved and deployed inside Toyota. Walks you through building agents that connect to Microsoft 365, SAP, and Salesforce. Free on Microsoft Learn. A Microsoft badge is awarded on completion.</div>
+    <div class="clinks">
+      <a class="cl filled" style="--c:var(--m5)" href="https://learn.microsoft.com/en-us/training/paths/work-with-microsoft-copilot-studio/" target="_blank">Start on Microsoft Learn →</a>
+      <a class="cl" style="--c:var(--m5)" href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank">Copilot Studio Product Page</a>
+      <a class="cl" style="--c:var(--m5)" href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/" target="_blank">Copilot Studio Docs</a>
+    </div>
+  </div>
+
+  <div class="sl">newsletters — 15 min/week to stay current</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:28px;">
+    <div style="background:var(--surface);border:1px solid var(--border);padding:13px;"><a href="https://www.therundown.ai/" target="_blank" style="font-size:12px;font-weight:700;color:var(--text);border-bottom:1px solid var(--accent3);">The Rundown AI</a><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;line-height:1.5;">Daily · 5 mins · Best quick-scan of AI news</div></div>
+    <div style="background:var(--surface);border:1px solid var(--border);padding:13px;"><a href="https://bensbites.co/" target="_blank" style="font-size:12px;font-weight:700;color:var(--text);border-bottom:1px solid var(--accent3);">Ben's Bites</a><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;line-height:1.5;">Daily · Product lens on AI news · Great for PMs</div></div>
+    <div style="background:var(--surface);border:1px solid var(--border);padding:13px;"><a href="https://lastweekin.ai/" target="_blank" style="font-size:12px;font-weight:700;color:var(--text);border-bottom:1px solid var(--accent3);">Last Week in AI</a><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;line-height:1.5;">Weekly digest · More depth, less noise</div></div>
+    <div style="background:var(--surface);border:1px solid var(--border);padding:13px;"><a href="https://fullstackpm.com/" target="_blank" style="font-size:12px;font-weight:700;color:var(--text);border-bottom:1px solid var(--accent3);">The Full Stack PM</a><div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;line-height:1.5;">By Carl (ccforpms.com) · PM-first AI perspective</div></div>
+  </div>
+</div>
+
+<!-- GLOSSARY -->
+<div class="page" id="page-glossary">
+  <div class="htag">Plain English Decoder</div>
+  <h1 style="font-size:clamp(34px,5vw,60px)">JARGON<span>TRANSLATED</span></h1>
+  <div class="ibar" style="margin-top:22px;">Every AI term you'll encounter — explained as if you've never written a line of code. Bookmark this page. You'll refer back to it often in Months 1 and 2.</div>
+  <div class="sl">core AI terms</div>
+  <div class="ggrid">
+    <div class="gi"><div class="gterm">Token</div><div class="gdef">AI's unit of text — roughly ¾ of a word. Every AI request costs tokens. More context = more tokens = more cost. As a PM, this is your main cost driver when building AI features.</div></div>
+    <div class="gi"><div class="gterm">Inferencing</div><div class="gdef">The act of the AI "thinking" and producing an answer. Every time your product calls an AI, that's an inference. It costs money and takes time — both are product decisions you own.</div></div>
+    <div class="gi"><div class="gterm">Context Window</div><div class="gdef">How much the AI can "read" at once — like a desk. Once full, something falls off. Bigger = better understanding but more expensive. You decide the right size for your use case.</div></div>
+    <div class="gi"><div class="gterm">LLM</div><div class="gdef">Large Language Model. The AI brain behind tools like ChatGPT, Claude, and Copilot. You choose which LLM powers your agent based on cost, speed, and accuracy — like choosing an engine for a car.</div></div>
+    <div class="gi"><div class="gterm">System Prompt</div><div class="gdef">The permanent instructions you give an AI before any user talks to it. Like an SOP or a job description. You write this as a PM — no code needed. This is your most powerful design tool.</div></div>
+    <div class="gi"><div class="gterm">Non-Deterministic</div><div class="gdef">AI gives a slightly different answer every time. Unlike software where 2+2 always = 4. This changes how you write specs, how you test, and how you define "done."</div></div>
+    <div class="gi"><div class="gterm">RAG</div><div class="gdef">Retrieval-Augmented Generation. The AI searches your own documents before answering — so responses are based on YOUR data, not just general training. Like giving AI a Toyota-specific handbook.</div></div>
+    <div class="gi"><div class="gterm">MCP</div><div class="gdef">Model Context Protocol. The standard "plug" that lets AI connect to any external app or data source. Think USB-C for AI integrations — one standard that works everywhere. <a href="https://modelcontextprotocol.io/" target="_blank">modelcontextprotocol.io</a></div></div>
+    <div class="gi"><div class="gterm">Agent</div><div class="gdef">An AI that can plan, take actions, check its own work, and loop until a task is complete. Unlike a chatbot that just replies, an agent actively does things — search databases, send updates, trigger workflows.</div></div>
+    <div class="gi"><div class="gterm">Orchestration</div><div class="gdef">How multiple AI agents are coordinated to work together. Like a conductor leading an orchestra — one agent plans, another executes, another checks quality. You design this flow as a PM.</div></div>
+    <div class="gi"><div class="gterm">Agent Sprawl</div><div class="gdef">When every team builds their own agent without coordination — leading to duplicated effort, inconsistent data, and security risks. A real governance problem at Toyota scale that you prevent.</div></div>
+    <div class="gi"><div class="gterm">Agent Mesh</div><div class="gdef">A smarter multi-agent model where agents hand off work to each other cleanly — like a relay race. Reduces sprawl and increases reliability.</div></div>
+    <div class="gi"><div class="gterm">Evals (Evaluations)</div><div class="gdef">How you measure whether your AI is giving good answers. Think QA, but for AI outputs. As a PM, you define what "good" looks like — engineers build the automated tests.</div></div>
+    <div class="gi"><div class="gterm">Middleware Compression</div><div class="gdef">Shrinking the information sent to an AI before it's processed — to reduce cost and speed up responses. Like summarizing a 100-page doc to key bullet points before asking AI a question about it.</div></div>
+    <div class="gi"><div class="gterm">Latency</div><div class="gdef">How long it takes for AI to respond. 3 seconds is fine for a research tool; 0.5 seconds is required for a real-time customer-facing feature. You define the acceptable threshold for your product.</div></div>
+    <div class="gi"><div class="gterm">Vector Database</div><div class="gdef">A special database that stores information so AI can search by meaning, not just keywords. "Car recall" and "vehicle defect" would match — even though the words are different.</div></div>
+  </div>
+</div>
+
+<!-- OUTCOMES -->
+<div class="page" id="page-outcomes">
+  <div class="htag">What You'll Have at Month 6</div>
+  <h1 style="font-size:clamp(34px,5vw,60px)">END<span>OUTCOMES</span></h1>
+  <div class="ibar" style="margin-top:22px;">These aren't just learning objectives — they're tangible assets and skills you'll use immediately at Toyota. Each one makes you harder to replace and easier to promote.</div>
+  <div class="sl">6 things you will have</div>
+  <div class="ogrid">
+    <div class="oc"><div class="onum">01</div><div class="otitle">AI Fluency — No Code Required</div><div class="odesc">You can speak confidently about tokens, latency, RAG, evals, orchestration, and MCP in any product review or leadership meeting — and translate it for people who know less than you.</div></div>
+    <div class="oc"><div class="onum">02</div><div class="otitle">4 Certificates + 1 Proof-of-Work Course</div><div class="odesc"><a href="https://productschool.com/certifications/ai-for-product-managers" target="_blank">Product School AI PM Cert</a> · <a href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">DeepLearning.AI Agentic AI</a> · <a href="https://www.coursera.org/learn/agentic-ai-and-agentic-process-automation" target="_blank">IBM Process Automation</a> · <a href="https://learn.microsoft.com/en-us/training/paths/work-with-microsoft-copilot-studio/" target="_blank">Microsoft Copilot Badge</a> · <a href="https://ccforpms.com/" target="_blank">Claude Code for PMs (practical proof of work)</a>.</div></div>
+    <div class="oc"><div class="onum">03</div><div class="otitle">A Real Shipped AI Agent</div><div class="odesc">A working agent built in <a href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank">Copilot Studio</a>, grounded in a Toyota context — supply chain, dealer support, or QA inspection. All 8 pillars applied. You built it. You can explain every decision.</div></div>
+    <div class="oc"><div class="onum">04</div><div class="otitle">A Business Case Template</div><div class="odesc">A reusable P&amp;L-first template for pitching agentic automation internally — including ROI model, risk section, and effort × value matrix. Ready to use at Toyota immediately after Month 4.</div></div>
+    <div class="oc"><div class="onum">05</div><div class="otitle">A Published Case Study</div><div class="odesc">A <a href="https://linkedin.com" target="_blank">LinkedIn</a> article documenting your capstone — the problem, what you built, and what it would save in time and cost. Your public proof of work as an Automotive AI PM.</div></div>
+    <div class="oc"><div class="onum">06</div><div class="otitle">Expert Positioning</div><div class="odesc">You'll be the person in every Toyota meeting who understands both the AI architecture and the product implications. That combination is rare, valuable, and very hard to hire for.</div></div>
+  </div>
+</div>
+
+<!-- MONTH 1 -->
+<div class="page" id="page-m1">
+  <div class="mblock" style="--c:var(--m1)">
+    <div class="mheader"><span class="mnum">MONTH 01 · WEEKS 1–4 · APR 6 – MAY 1</span><span class="mtitle">AI PM FOUNDATIONS</span><span class="mbadge">Mindset Shift</span></div>
+    <div class="ibar"><strong>Course:</strong> <a href="https://productschool.com/certifications/ai-for-product-managers" target="_blank">AI Product Management Certification — Product School</a><br>Alt: <a href="https://www.coursera.org/professional-certificates/ibm-ai-product-manager" target="_blank">IBM AI PM Certificate on Coursera (self-paced, cheaper)</a></div>
+    <div class="mcard">
+      <div class="mfocus"><span class="ftag">🏆 Certificate included</span><span class="ftag">Why AI answers vary each time</span><span class="ftag">What AI costs &amp; why</span><span class="ftag">Speed vs quality tradeoffs</span></div>
+      <div class="wgrid">
+        <div class="wi"><div class="wnum">Week 1 · Apr 6 / Apr 8 / Apr 10</div><div class="wtitle">Thinking Like an AI PM</div><ul class="wtasks"><li>What PMs must unlearn from traditional software</li><li>Why AI gives different answers each time — and how to spec for it</li><li>How to write a feature brief for an AI product (not a normal feature)</li></ul></div>
+        <div class="wi"><div class="wnum">Week 2 · Apr 13 / Apr 15 / Apr 17</div><div class="wtitle">How AI Models Work (No Code)</div><ul class="wtasks"><li>"Tokens" — AI's unit of reading &amp; writing, and why every request costs money</li><li>Inferencing: every AI call costs time and money — product decisions you own</li><li>Speed vs. accuracy: why a faster AI is sometimes the wrong choice</li></ul></div>
+        <div class="wi"><div class="wnum">Week 3 · Apr 20 / Apr 22 / Apr 24</div><div class="wtitle">AI Memory &amp; Context (Plain English)</div><ul class="wtasks"><li>Context windows: how much AI can "hold in mind" at once — and what falls off when it's full</li><li>Middleware compression: shrinking information so AI costs less and runs faster</li><li>How to pick the right AI model for a given job — like choosing the right tool from a toolbox</li></ul></div>
+        <div class="wi"><div class="wnum">Week 4 · Apr 27 / Apr 29 / May 1</div><div class="wtitle">Automotive AI Landscape</div><ul class="wtasks"><li>Map AI use cases relevant to Toyota / automotive (supply chain, QA, dealer support)</li><li>Build your personal AI glossary — use the <a href="#" onclick="show('glossary',null);return false;">Jargon Decoder</a> as your reference</li><li>Write 1 AI feature brief using everything learned this month</li></ul></div>
+      </div>
+      <div class="mout">You can confidently discuss AI in any product review. You have a plain-English glossary of 50+ AI terms.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTH 2 -->
+<div class="page" id="page-m2">
+  <div class="mblock" style="--c:var(--m2)">
+    <div class="mheader"><span class="mnum">MONTH 02 · WEEKS 5–8 · MAY 4 – MAY 29</span><span class="mtitle">YOUR FIRST REAL AI AGENT</span><span class="mbadge">Hands-On Now</span></div>
+    <div class="ibar"><strong>Courses:</strong> <a href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">DeepLearning.AI — Agentic AI</a> + <a href="https://ccforpms.com/" target="_blank" style="color:var(--accent3)">★ Claude Code for PMs (FREE) — ccforpms.com</a></div>
+    <div class="mcard">
+      <div class="mfocus"><span class="ftag">🏆 DeepLearning.AI Certificate</span><span class="ftag ftag-hl"><a href="https://ccforpms.com/" target="_blank">★ FREE: ccforpms.com</a></span><span class="ftag">What agents are &amp; how they decide</span><span class="ftag">Writing AI's job description</span></div>
+      <div class="wgrid">
+        <div class="wi"><div class="wnum">Week 5 · May 4 / May 6 / May 8</div><div class="wtitle">Chatbot vs. Agent — What's the Difference?</div><ul class="wtasks"><li><a href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">DeepLearning.AI</a>: how an agent plans, acts, and checks its own work in a loop</li><li>Pillar 1: Defining what your agent is FOR — like writing a job description for AI</li><li>Real example: Toyota dealer support agent vs. a basic FAQ chatbot</li></ul></div>
+        <div class="wi wk-hl"><div class="wnum" style="color:var(--accent3)">★ Week 6 FREE COURSE · May 11 / May 13 / May 15</div><div class="wtitle">Claude Code for PMs — Real PM Work with AI</div><ul class="wtasks"><li><a href="https://ccforpms.com/" target="_blank" style="color:var(--accent3)">ccforpms.com</a> — free, 10–12 hrs, no coding — do real PM tasks inside Claude Code</li><li>Process meeting notes, write a PRD, run 10 parallel AI agents at once</li><li>CLAUDE.md: permanently teach AI to remember your product context</li><li>Needs: <a href="https://claude.ai" target="_blank">Claude Pro ($20/mo)</a> · <a href="https://github.com/carlvellotti/claude-code-pm-course" target="_blank">Download course on GitHub</a></li></ul></div>
+        <div class="wi"><div class="wnum">Week 7 · May 18 / May 20 / May 22</div><div class="wtitle">Writing Instructions for AI (System Prompts)</div><ul class="wtasks"><li>Pillar 2: A system prompt is the standing brief you give your AI — think SOP or job description</li><li>Pillar 3: Choosing the right AI — <a href="https://openai.com/gpt-4" target="_blank">GPT-4o</a>, <a href="https://claude.ai" target="_blank">Claude</a>, <a href="https://gemini.google.com" target="_blank">Gemini</a> — cost vs quality tradeoffs</li><li>Hands-on: write 3 system prompts for Toyota-relevant use cases</li></ul></div>
+        <div class="wi"><div class="wnum">Week 8 · May 25 / May 27 / May 29</div><div class="wtitle">Design Your First Agent (No Code)</div><ul class="wtasks"><li>Design a Toyota-context agent entirely in a Google Doc — no tools needed yet</li><li>Document: what it does, its system prompt, and which AI model it uses</li><li>Record a 5-min Loom walkthrough and share with a peer for feedback</li></ul></div>
+      </div>
+      <div class="mout">You've done real AI-powered PM work. You can design an agent and explain it clearly to any stakeholder.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTH 3 -->
+<div class="page" id="page-m3">
+  <div class="mblock" style="--c:var(--m3)">
+    <div class="mheader"><span class="mnum">MONTH 03 · WEEKS 9–12 · JUN 1 – JUN 26</span><span class="mtitle">HOW AGENTS WORK INSIDE</span><span class="mbadge">Agent Internals</span></div>
+    <div class="ibar"><strong>Course:</strong> <a href="https://www.deeplearning.ai/courses/ai-agentic-design-patterns-with-autogen/" target="_blank">DeepLearning.AI — Agentic AI (continued)</a></div>
+    <div class="mcard">
+      <div class="mfocus"><span class="ftag">How agents remember things</span><span class="ftag">Connecting AI to other apps</span><span class="ftag"><a href="https://modelcontextprotocol.io/" target="_blank">MCP protocol</a></span><span class="ftag">One agent vs. many</span></div>
+      <div class="wgrid">
+        <div class="wi"><div class="wnum">Week 9 · Jun 1 / Jun 3 / Jun 5</div><div class="wtitle">How AI Agents Remember Things</div><ul class="wtasks"><li>Pillar 4: Short-term memory (this conversation) vs. long-term (searchable document store)</li><li>RAG: agents search your files for relevant info — like a smart Ctrl+F on Toyota docs</li><li>What happens when an agent "forgets" — and why that's a PM problem to define and solve</li></ul></div>
+        <div class="wi"><div class="wnum">Week 10 · Jun 8 / Jun 10 / Jun 12</div><div class="wtitle">Connecting AI to the Rest of Your Company</div><ul class="wtasks"><li>Pillar 5: How agents plug into calendars, databases, and internal systems</li><li><a href="https://modelcontextprotocol.io/" target="_blank">MCP (Model Context Protocol)</a>: the USB-C standard for AI connecting to any app</li><li>Map Toyota data sources (SAP, Salesforce, dealer management systems) as agent connections</li></ul></div>
+        <div class="wi"><div class="wnum">Week 11 · Jun 15 / Jun 17 / Jun 19</div><div class="wtitle">One Agent vs. Many — When to Use Each</div><ul class="wtasks"><li>Pillar 6: When to use a single agent vs. a coordinated team of agents</li><li>Agent Sprawl: risks of every Toyota team building agents independently</li><li>Agent Mesh: the smarter model — agents hand off work to each other cleanly</li></ul></div>
+        <div class="wi"><div class="wnum">Week 12 · Jun 22 / Jun 24 / Jun 26</div><div class="wtitle">Designing the User Experience for AI</div><ul class="wtasks"><li>Pillar 7: When should AI show its reasoning? Citations, confidence, "I'm not sure" UI</li><li>Designing for trust: users must know when to rely on AI and when to double-check</li><li>Audit 3 real AI products — what UX decisions did they make and why?</li></ul></div>
+      </div>
+      <div class="mout">You can walk into any agent design review and speak confidently about all 7 pillars — no engineering background needed.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTH 4 -->
+<div class="page" id="page-m4">
+  <div class="mblock" style="--c:var(--m4)">
+    <div class="mheader"><span class="mnum">MONTH 04 · WEEKS 13–16 · JUN 29 – JUL 24</span><span class="mtitle">TESTING &amp; BUSINESS CASE</span><span class="mbadge">Quality + P&amp;L</span></div>
+    <div class="ibar"><strong>Course:</strong> <a href="https://www.coursera.org/learn/agentic-ai-and-agentic-process-automation" target="_blank">IBM Agentic AI &amp; Process Automation — Coursera</a></div>
+    <div class="mcard">
+      <div class="mfocus"><span class="ftag">🏆 IBM Certificate on Coursera</span><span class="ftag">Measuring if AI is working</span><span class="ftag">Building the ROI case</span><span class="ftag">Toyota workflow mapping</span></div>
+      <div class="wgrid">
+        <div class="wi"><div class="wnum">Week 13 · Jun 29 / Jul 1 / Jul 3</div><div class="wtitle">How Do You Know If Your AI Is Good?</div><ul class="wtasks"><li>Pillar 8: Evaluations — the PM's framework for measuring AI quality</li><li>Using AI to review AI: how automated quality checks work</li><li>How to catch failures before users do — QA, but for AI outputs</li></ul></div>
+        <div class="wi"><div class="wnum">Week 14 · Jul 6 / Jul 8 / Jul 10</div><div class="wtitle">Building Your AI Quality Scorecard</div><ul class="wtasks"><li>Tools like <a href="https://www.promptfoo.dev/" target="_blank">PromptFoo</a> — what they tell your team, even if you don't run them yourself</li><li>Writing an evaluation rubric: what "good" looks like for your specific Toyota use case</li><li>Build a 1-page AI quality scorecard for stakeholder reviews</li></ul></div>
+        <div class="wi"><div class="wnum">Week 15 · Jul 13 / Jul 15 / Jul 17</div><div class="wtitle">The Business Case for AI Automation</div><ul class="wtasks"><li><a href="https://www.coursera.org/learn/agentic-ai-and-agentic-process-automation" target="_blank">IBM course</a>: find workflows that cost the most in human time — then calculate AI's ROI</li><li>Cost of AI tokens vs. cost of manual labor — the calculation for every pitch</li><li>Build a reusable business case template for pitching AI agents at Toyota</li></ul></div>
+        <div class="wi"><div class="wnum">Week 16 · Jul 20 / Jul 22 / Jul 24</div><div class="wtitle">Toyota Workflow Mapping</div><ul class="wtasks"><li>Identify 5 Toyota processes that could be automated with an AI agent</li><li>Score each on effort × value matrix — which do you pitch first?</li><li>Draft a 2-slide internal pitch for your highest-value opportunity</li></ul></div>
+      </div>
+      <div class="mout">You can measure AI quality and build a credible business case for any agentic automation at Toyota.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTH 5 -->
+<div class="page" id="page-m5">
+  <div class="mblock" style="--c:var(--m5)">
+    <div class="mheader"><span class="mnum">MONTH 05 · WEEKS 17–20 · JUL 27 – AUG 21</span><span class="mtitle">ENTERPRISE SCALE</span><span class="mbadge">Deploy at Scale</span></div>
+    <div class="ibar"><strong>Course:</strong> <a href="https://learn.microsoft.com/en-us/training/paths/work-with-microsoft-copilot-studio/" target="_blank">Microsoft Copilot Studio Agent Academy — Microsoft Learn (Free)</a></div>
+    <div class="mcard">
+      <div class="mfocus"><span class="ftag">🏆 Microsoft Badge</span><span class="ftag">No-code agent building</span><span class="ftag">Corporate AI governance</span><span class="ftag">SAP + Salesforce connections</span></div>
+      <div class="wgrid">
+        <div class="wi"><div class="wnum">Week 17 · Jul 27 / Jul 29 / Jul 31</div><div class="wtitle">Build an Agent in Copilot Studio (No Code)</div><ul class="wtasks"><li><a href="https://learn.microsoft.com/en-us/training/paths/work-with-microsoft-copilot-studio/" target="_blank">Microsoft Learn</a>: set up your environment and build your first real enterprise agent</li><li>Topics: what the agent handles · Triggers: what causes it to start working</li><li>Step-by-step guided — no terminal, no code, no prior technical experience needed</li></ul></div>
+        <div class="wi"><div class="wnum">Week 18 · Aug 3 / Aug 5 / Aug 7</div><div class="wtitle">Keeping AI Safe in a Corporate Environment</div><ul class="wtasks"><li>How to ensure your agent only sees data it's allowed to — data permissions by role</li><li>Designing the human escalation path: when does the agent hand off to a person?</li><li>Aligning your agents with Toyota's AI policies and compliance requirements</li></ul></div>
+        <div class="wi"><div class="wnum">Week 19 · Aug 10 / Aug 12 / Aug 14</div><div class="wtitle">Managing Many Agents Without Chaos</div><ul class="wtasks"><li>Agent Sprawl: the risk of every Toyota team building agents without oversight</li><li>Agent Mesh: agents designed to coordinate and hand off work cleanly</li><li>Design a simple "agent catalog" so Toyota knows what exists and who owns it</li></ul></div>
+        <div class="wi"><div class="wnum">Week 20 · Aug 17 / Aug 19 / Aug 21</div><div class="wtitle">Connecting to the Enterprise Stack</div><ul class="wtasks"><li>How <a href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank">Copilot Studio</a> connects to Microsoft 365, SAP, Salesforce — no code</li><li>Build a complete workflow: trigger → agent action → output → human review</li><li>End-to-end practice: one real Toyota-context scenario from start to finish</li></ul></div>
+      </div>
+      <div class="mout">You can build and deploy a real Copilot Studio agent. You own the governance model for Toyota AI.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MONTH 6 -->
+<div class="page" id="page-m6">
+  <div class="mblock" style="--c:var(--m6)">
+    <div class="mheader"><span class="mnum">MONTH 06 · WEEKS 21–24 · AUG 24 – SEP 18</span><span class="mtitle">CAPSTONE &amp; EXPERT STATUS</span><span class="mbadge">Ship It 🏁</span></div>
+    <div class="ibar"><strong>No external course this month.</strong> You apply everything from the past 5 months to build, test, document, and present a real AI agent for an automotive use case. This is your proof of work.</div>
+    <div class="mcard">
+      <div class="mfocus"><span class="ftag">All 8 pillars applied</span><span class="ftag"><a href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank">Copilot Studio</a> as your build tool</span><span class="ftag">Case study + LinkedIn article</span><span class="ftag">Expert positioning</span></div>
+      <div class="wgrid">
+        <div class="wi"><div class="wnum">Week 21 · Aug 24 / Aug 26 / Aug 28</div><div class="wtitle">Design Your Capstone Agent</div><ul class="wtasks"><li>Pick: supply chain agent, dealer support agent, or QA inspection agent</li><li>Apply all 8 pillars in a design document — this is your proof of knowledge</li><li>Define what success looks like: what metrics prove the agent is working?</li></ul></div>
+        <div class="wi"><div class="wnum">Week 22 · Aug 31 / Sep 2 / Sep 4</div><div class="wtitle">Build &amp; Test Your Agent</div><ul class="wtasks"><li>Build version 1 in <a href="https://www.microsoft.com/en-us/microsoft-copilot/microsoft-copilot-studio" target="_blank">Copilot Studio</a> — the tool you now know well</li><li>Run your quality scorecard from Month 4 against real outputs</li><li>Write what failed, what surprised you, and what you'd do differently in v2</li></ul></div>
+        <div class="wi"><div class="wnum">Week 23 · Sep 7 / Sep 9 / Sep 11</div><div class="wtitle">Build Your Portfolio &amp; Case Study</div><ul class="wtasks"><li>Write a 1-page case study: problem → what you built → time/cost it would save</li><li>Update <a href="https://linkedin.com" target="_blank">LinkedIn</a>: "AI PM in Automotive" is now a genuine part of your identity</li><li>Draft your LinkedIn article — your first public proof of AI expertise in automotive</li></ul></div>
+        <div class="wi"><div class="wnum">Week 24 · Sep 14 / Sep 16 / Sep 18</div><div class="wtitle">Present, Share &amp; Celebrate 🏁</div><ul class="wtasks"><li>Present your capstone to your team, a leadership meeting, or an AI meetup</li><li>Volunteer to own AI strategy conversations in your product area at Toyota</li><li>You are now in the top 5% of AI-literate PMs in the automotive industry 🎉</li></ul></div>
+      </div>
+      <div class="mout">You have a shipped agent, a published case study, and a credible AI expert narrative. The journey continues from here.</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (pg) pg.classList.add('active');
+  if (el) el.classList.add('active');
+  document.querySelector('.sidebar').classList.remove('open');
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.ni')[0].classList.add('active');
+</script>
+</body>
+</html>
